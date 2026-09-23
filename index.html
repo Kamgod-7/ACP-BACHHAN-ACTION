@@ -282,7 +282,7 @@ pointer-events: none;
 }
 
 @media screen and (orientation: portrait) {
-#game-container, #ui-layer, #intro-screen {
+#game-container, #ui-layer, #intro-screen, #about-screen {
 width: 100vh !important;
 height: 100vw !important;
 width: 100dvh !important;
@@ -602,9 +602,292 @@ z-index: 999;
 pointer-events: none;
 white-space: nowrap;
 }
+
+/* ========================================================= */
+/* 🏆 SCORE HUD + ABOUT US TAB + CONTACT OVERLAY (KAMAL GOD UPDATE) */
+/* ========================================================= */
+#score-hud {
+position: fixed;
+top: 14px;
+left: 14px;
+z-index: 1002;
+padding: 8px 20px;
+font-family: 'Orbitron', sans-serif;
+letter-spacing: 2px;
+background: var(--glass-bg);
+border: 1px solid var(--glass-border);
+border-radius: 20px;
+backdrop-filter: blur(6px);
+-webkit-backdrop-filter: blur(6px);
+box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+pointer-events: none;
+}
+#score-hud .score-label {
+font-size: 0.65rem;
+color: var(--acc-sec);
+margin-right: 8px;
+}
+#score-hud .score-value {
+font-size: 1rem;
+font-weight: 900;
+color: var(--text-main);
+}
+
+#about-us-btn {
+position: fixed;
+top: 14px;
+right: 14px;
+z-index: 1002;
+padding: 8px 18px;
+font-family: 'Orbitron', sans-serif;
+font-size: 0.75rem;
+font-weight: 700;
+letter-spacing: 2px;
+color: var(--text-main);
+background: var(--glass-bg);
+border: 1px solid var(--glass-border);
+border-radius: 20px;
+cursor: pointer;
+text-transform: uppercase;
+backdrop-filter: blur(6px);
+-webkit-backdrop-filter: blur(6px);
+box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+transition: all 0.25s ease;
+pointer-events: auto;
+}
+#about-us-btn:hover {
+background: rgba(0, 200, 83, 0.18);
+border-color: var(--acc-pri);
+transform: translateY(-2px);
+}
+
+/* About / Contact overlay - reuses the splash-intro's atmosphere classes */
+#about-screen {
+position: fixed;
+top: 0; left: 0;
+width: 100vw; height: 100vh;
+width: 100dvw; height: 100dvh;
+z-index: 2000;
+display: none;
+align-items: center;
+justify-content: center;
+overflow: hidden;
+cursor: pointer;
+background: radial-gradient(circle at 50% 42%, #1c1c1c 0%, #0a0a0a 55%, #000000 100%);
+transition: opacity .6s ease, transform .6s cubic-bezier(.55,0,.1,1), filter .6s ease;
+}
+#about-screen.about-visible {
+display: flex;
+}
+#about-screen.about-exit {
+opacity: 0;
+transform: scale(1.15);
+filter: blur(14px);
+pointer-events: none;
+}
+
+.about-title-fade {
+opacity: 0;
+transform: translateY(30px) scale(0.85);
+animation: aboutTitleIn 0.9s cubic-bezier(.2,.8,.2,1) forwards 0.3s,
+           introGlowPulse 2.4s ease-in-out infinite 1.2s;
+}
+@keyframes aboutTitleIn {
+to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+#about-contact {
+position: relative;
+z-index: 2;
+cursor: default;
+}
+
+.contact-email {
+display: inline-block;
+margin: 18px 0 22px;
+font-size: 1.1rem;
+font-weight: 700;
+letter-spacing: 1px;
+color: var(--acc-pri);
+text-decoration: none;
+word-break: break-all;
+text-shadow: 0 0 10px rgba(0, 200, 83, 0.4);
+}
+.contact-email:hover { color: var(--acc-sec); }
+
+.contact-quote {
+font-size: 0.95rem;
+font-style: italic;
+line-height: 1.6;
+color: rgba(255,255,255,0.85);
+max-width: 320px;
+margin: 0 0 6px;
+}
+.contact-quote-author {
+display: block;
+font-size: 0.8rem;
+font-style: normal;
+letter-spacing: 1px;
+color: var(--acc-sec);
+margin-bottom: 26px;
+}
+
+/* ========================================================= */
+/* 📢 TOP PROMO / IMPORTANT NOTICE BANNER */
+/* ========================================================= */
+:root { --promo-h: 44px; }
+
+#promo-notice {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+min-height: var(--promo-h);
+z-index: 2500;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+padding: 8px 46px 8px 16px;
+background: linear-gradient(90deg, #00C853, #FF9933, #00C853, #FF9933);
+background-size: 300% 100%;
+animation: promoGradientShift 7s linear infinite;
+box-shadow: 0 3px 16px rgba(0,0,0,0.6);
+font-family: 'Orbitron', sans-serif;
+transition: transform 0.45s cubic-bezier(.55,0,.1,1), opacity 0.35s ease;
+text-align: center;
+}
+#promo-notice.promo-hidden {
+transform: translateY(-100%);
+opacity: 0;
+pointer-events: none;
+}
+@keyframes promoGradientShift {
+0% { background-position: 0% 50%; }
+100% { background-position: 300% 50%; }
+}
+.promo-notice-inner {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+flex-wrap: wrap;
+max-width: 100%;
+}
+.promo-notice-icon {
+font-size: 1.05rem;
+display: inline-block;
+animation: promoPulse 1.5s ease-in-out infinite;
+filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+}
+@keyframes promoPulse {
+0%, 100% { transform: scale(1) rotate(0deg); }
+50% { transform: scale(1.22) rotate(-6deg); }
+}
+.promo-notice-link {
+display: inline-flex;
+align-items: center;
+gap: 7px;
+flex-wrap: wrap;
+justify-content: center;
+text-decoration: none;
+cursor: pointer;
+color: #fff;
+-webkit-tap-highlight-color: rgba(255,255,255,0.25);
+}
+.promo-notice-text {
+font-size: 0.68rem;
+font-weight: 700;
+letter-spacing: 1.2px;
+color: rgba(255,255,255,0.95);
+text-transform: uppercase;
+text-shadow: 0 1px 3px rgba(0,0,0,0.65);
+}
+.promo-notice-url {
+font-size: 0.82rem;
+font-weight: 900;
+letter-spacing: 0.4px;
+color: #fff;
+text-decoration: underline;
+text-underline-offset: 3px;
+text-shadow: 0 1px 3px rgba(0,0,0,0.65);
+padding: 2px 10px;
+background: rgba(0,0,0,0.22);
+border-radius: 12px;
+transition: background 0.2s ease, transform 0.2s ease;
+}
+.promo-notice-link:hover .promo-notice-url,
+.promo-notice-link:active .promo-notice-url {
+background: rgba(0,0,0,0.4);
+transform: translateY(-1px);
+}
+#promo-notice-close {
+position: absolute;
+right: 8px;
+top: 50%;
+transform: translateY(-50%);
+width: 26px;
+height: 26px;
+border-radius: 50%;
+border: none;
+background: rgba(0,0,0,0.28);
+color: #fff;
+font-size: 1rem;
+line-height: 1;
+font-weight: 700;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: background 0.2s ease, transform 0.2s ease;
+pointer-events: auto;
+}
+#promo-notice-close:hover {
+background: rgba(0,0,0,0.55);
+transform: translateY(-50%) scale(1.1);
+}
+
+#score-hud, #about-us-btn { transition: top 0.4s cubic-bezier(.55,0,.1,1); }
+body.promo-active #score-hud,
+body.promo-active #about-us-btn {
+top: calc(var(--promo-h) + 22px);
+}
+
+@media (max-width: 480px) {
+:root { --promo-h: 58px; }
+#promo-notice { padding: 8px 40px 8px 10px; }
+.promo-notice-text { font-size: 0.58rem; letter-spacing: 0.8px; }
+.promo-notice-url { font-size: 0.72rem; padding: 2px 8px; }
+.promo-notice-icon { font-size: 0.95rem; }
+}
 </style>
 </head>
-<body>
+<body class="promo-active">
+
+<!-- 📢 Important Notice Banner (always on top, above intro/about/game screens) -->
+<div id="promo-notice" role="banner">
+<div class="promo-notice-inner">
+<span class="promo-notice-icon" aria-hidden="true">🎮</span>
+<a class="promo-notice-link" href="https://kaptaingames.gamer.free" target="_blank" rel="noopener noreferrer">
+<span class="promo-notice-text">All Games &amp; More At</span>
+<span class="promo-notice-url">kaptaingames.gamer.free</span>
+</a>
+</div>
+<button id="promo-notice-close" type="button" aria-label="Dismiss notice">&times;</button>
+</div>
+<script>
+(function () {
+var promoCloseBtn = document.getElementById('promo-notice-close');
+var promoNotice = document.getElementById('promo-notice');
+if (promoCloseBtn && promoNotice) {
+promoCloseBtn.addEventListener('click', function (e) {
+e.stopPropagation();
+promoNotice.classList.add('promo-hidden');
+document.body.classList.remove('promo-active');
+});
+}
+})();
+</script>
 
 <!-- Intro / Splash Screen -->
 <div id="intro-screen">
@@ -658,6 +941,12 @@ setTimeout(finishIntro, 3400);
 })();
 </script>
 
+<!-- Score HUD (top-left) -->
+<div id="score-hud"><span class="score-label">SCORE</span><span class="score-value" id="score-value">0</span></div>
+
+<!-- About Us Tab (top-right, always accessible) -->
+<button id="about-us-btn" type="button">About Us</button>
+
 <div id="ui-layer">
 <!-- Loading Screen -->
 <div id="loading-screen" class="glass-panel hidden">
@@ -693,6 +982,28 @@ setTimeout(finishIntro, 3400);
 
 <!-- Footer: kept outside #ui-layer so it stays visible on every screen, including during active gameplay -->
 <div class="brand-footer-global">Powered by Kamal God</div>
+
+<!-- About / Contact Overlay (KAMAL GOD) -->
+<div id="about-screen">
+<div class="intro-vignette"></div>
+<div class="intro-embers" id="about-embers"></div>
+<div class="intro-scan"></div>
+
+<div class="intro-content" id="about-intro-content">
+<h1 class="intro-title about-title-fade" aria-label="MADE BY KAMAL GOD">MADE BY KAMAL GOD</h1>
+<div class="intro-underline"></div>
+</div>
+<div class="intro-tap-hint">TAP TO CONTINUE</div>
+
+<div class="glass-panel hidden" id="about-contact">
+<div class="brand-text">KAMAL GOD</div>
+<div class="title" style="font-size:1.8rem; margin-bottom:10px;">CONTACT US</div>
+<a href="https://kaptaingames.gamer.free" target="_blank" rel="noopener noreferrer" class="contact-email">kaptaingames.gamer.free</a>
+<p class="contact-quote">"Making people laugh is my first and last priority"</p>
+<span class="contact-quote-author">— Albert Haramkhor</span>
+<button class="premium-btn btn-secondary" id="about-close-button" type="button">Back To Game</button>
+</div>
+</div>
 
 <div id="game-container">
 <div id="game-world">
@@ -894,6 +1205,7 @@ resumeButton.addEventListener('click', () => {
 });
 
 restartButton.addEventListener('click', () => {
+    resetScore();
     currentHealth = maxHealth;
     isGameOver = false;
     isPaused = false;
@@ -921,6 +1233,7 @@ restartButton.addEventListener('click', () => {
 });
 
 pauseRestartButton.addEventListener('click', () => {
+    resetScore();
     currentHealth = maxHealth;
     isGameOver = false;
     isPaused = false;
@@ -1134,6 +1447,18 @@ let isGameOver = false;
 const healthFill = document.getElementById('player-health-fill');
 const healthText = document.getElementById('player-health-text');
 const character = document.getElementById('character');
+
+// ---- SCORE SYSTEM (KAMAL GOD UPDATE) ----
+let score = 0;
+const scoreValueEl = document.getElementById('score-value');
+function addScore(amount) {
+    score += amount;
+    if (scoreValueEl) scoreValueEl.innerText = score;
+}
+function resetScore() {
+    score = 0;
+    if (scoreValueEl) scoreValueEl.innerText = score;
+}
 
 function takeDamage(amount, isMassive = false) {
 if (isGameOver) return;
@@ -1419,6 +1744,7 @@ this.element.style.left = this.x + 'px';
 
 spawnBlood(targetX, targetY);
 spawnDamageText(targetX, targetY, 100);
+addScore(100);
 
 setTimeout(() => { this.destroy(); }, 150);
 }
@@ -1457,6 +1783,103 @@ function startGameLoop() {
 gameLoop();
 spawnerTimer = setTimeout(spawnEnemy, 1000);
 }
+
+// ---- ABOUT US / CONTACT OVERLAY (KAMAL GOD UPDATE) ----
+(function () {
+    const aboutBtn = document.getElementById('about-us-btn');
+    const aboutScreen = document.getElementById('about-screen');
+    const aboutEmbersLayer = document.getElementById('about-embers');
+    const aboutIntroContent = document.getElementById('about-intro-content');
+    const aboutTapHint = aboutScreen ? aboutScreen.querySelector('.intro-tap-hint') : null;
+    const aboutContact = document.getElementById('about-contact');
+    const aboutCloseBtn = document.getElementById('about-close-button');
+
+    if (!aboutBtn || !aboutScreen) return;
+
+    // Ambient embers, matching the splash-intro effect
+    const emberCount = 14;
+    for (let e = 0; e < emberCount; e++) {
+        const ember = document.createElement('div');
+        ember.className = 'intro-ember';
+        const left = Math.random() * 100;
+        const duration = 5 + Math.random() * 5;
+        const delay = Math.random() * 5;
+        const drift = (Math.random() * 60 - 30) + 'px';
+        ember.style.left = left + '%';
+        ember.style.setProperty('--drift', drift);
+        ember.style.animationDuration = duration + 's';
+        ember.style.animationDelay = '-' + delay + 's';
+        aboutEmbersLayer.appendChild(ember);
+    }
+
+    let pausedForAbout = false;
+    let aboutContactShown = false;
+    let aboutAutoTimer = null;
+
+    function showContactStage() {
+        if (aboutContactShown) return;
+        aboutContactShown = true;
+        if (aboutIntroContent) aboutIntroContent.classList.add('hidden');
+        if (aboutTapHint) aboutTapHint.classList.add('hidden');
+        if (aboutContact) aboutContact.classList.remove('hidden');
+    }
+
+    function openAboutScreen() {
+        // Pause live gameplay underneath (without touching the separate pause menu)
+        if (!isPaused && gameStarted && !isGameOver) {
+            pausedForAbout = true;
+            isPaused = true;
+            clearTimeout(spawnerTimer);
+            if (audioCtx.state === 'running') audioCtx.suspend();
+        } else {
+            pausedForAbout = false;
+        }
+
+        // Always reopen on the intro stage
+        aboutContactShown = false;
+        if (aboutContact) aboutContact.classList.add('hidden');
+        if (aboutIntroContent) aboutIntroContent.classList.remove('hidden');
+        if (aboutTapHint) aboutTapHint.classList.remove('hidden');
+        aboutScreen.classList.remove('about-exit');
+        aboutScreen.classList.add('about-visible');
+
+        aboutAutoTimer = setTimeout(showContactStage, 3200);
+    }
+
+    function closeAboutScreen() {
+        clearTimeout(aboutAutoTimer);
+        aboutScreen.classList.add('about-exit');
+        setTimeout(() => {
+            aboutScreen.classList.remove('about-visible', 'about-exit');
+        }, 600);
+
+        if (pausedForAbout) {
+            isPaused = false;
+            pausedForAbout = false;
+            if (gameStarted && !isGameOver) {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                gameLoop();
+                spawnEnemy();
+            }
+        }
+    }
+
+    aboutBtn.addEventListener('click', openAboutScreen);
+
+    aboutScreen.addEventListener('click', () => {
+        if (!aboutContactShown) {
+            clearTimeout(aboutAutoTimer);
+            showContactStage();
+        }
+    });
+
+    if (aboutCloseBtn) {
+        aboutCloseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeAboutScreen();
+        });
+    }
+})();
 
 </script>
 <script type="module" src="./v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;5c67c99a285e4edb844a44144798e0d8&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}" crossorigin="anonymous"></script>
